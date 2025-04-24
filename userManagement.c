@@ -1,7 +1,8 @@
 #include <stdio.h>
 
-void userRegister(){
 
+void userRegister(){
+    
 }
 void userLogin(){
 
@@ -18,6 +19,7 @@ void userPrompt(){
         printf("3.exit\n");
         printf("select an option: \n");
     
+       
         if (scanf("%i%c", &selectedOption, &selectedOptionChar) != 2 || selectedOptionChar != '\n'){
             printf("please enter a valid option\n");
             while(getchar() != '\n');
