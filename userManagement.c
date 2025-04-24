@@ -1,8 +1,30 @@
 #include <stdio.h>
+#include <string.h>
 
+#define MAX_USERS 10
+
+typedef struct 
+{
+    char userName[20];
+    char password[10];
+}User;  
+
+User users[MAX_USERS];
+int userCount = 0;
 
 void userRegister(){
+    if (userCount > MAX_USERS)
+    {
+        printf("Users limit reached!");
+        return;
+    }
     
+    printf("Set a userName: ");
+    fgets(users[userCount].userName, sizeof(users[userCount].userName), stdin);
+    users[userCount].userName[(strcspn(users[userCount].userName, '\n'))] = '\0 ';
+    printf("username: %s", users[userCount].userName);
+
+    userCount++;
 }
 void userLogin(){
 
