@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <conio.h> //for getch() to hide pass
 
 #define MAX_USERS 10
 
@@ -14,6 +15,33 @@ int userCount = 0;
 
 char loginUsername[20];
 char loginPassword[10];
+
+//to hide the password with *
+void hidePassword(char *password, int maxLength){
+    int index = 0;
+    char ch;
+
+    printf("Set a password: ");
+    while (1)
+    {
+        ch = getch(); //gets a single char and doesnot display it
+        if (ch == '\r')
+        {
+            password[index] = '\0';
+            printf("\n");
+            break;
+        }else if (ch == '\b'){
+            if(index > 0){
+                index--;
+                printf("\b \b");
+            }
+        }else if (index < maxLength - 1)
+        {
+            password[index++] = ch;
+            printf("*");
+        }      
+    }
+}
 
 void userRegister(){
    
@@ -30,14 +58,11 @@ void userRegister(){
     printf("\nusername: %s\n", users[userCount].userName);
 
     //for password
-    printf("Set a Password: ");
-    fgets(users[userCount].password, sizeof(users[userCount].password), stdin);
-    users[userCount].password[(strcspn(users[userCount].password, "\n"))] = '\0';
-    printf("\nPassword: %s\n", users[userCount].password);
+    hidePassword(users[userCount].password, sizeof(users[userCount].password));
 
-    userCount++;
+    printf("registration successful for %s", users[userCount].userName);
 
-   
+    userCount++;   
 }
 void userLogin(){
     //for username
