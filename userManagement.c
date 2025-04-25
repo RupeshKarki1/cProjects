@@ -43,6 +43,41 @@ void hidePassword(char *password, int maxLength){
     }
 }
 
+void saveUserData(){
+    FILE *file = fopen("userData.txt", "w"); //opening file in write mode
+    if (file == NULL)
+    {
+        printf("Error opening file \n.");
+        return;
+    }
+    for (int i = 0; i < userCount; i++)
+    {
+        fprintf(file, "%s %s\n", users[i].userName,users[i].password);
+    }
+    
+    fclose(file);
+
+}
+
+void loadUserData(){
+    FILE *file = fopen("userData.txt", "r"); // in read mode
+    if (file == NULL)
+    {
+        printf("No existing user data found. \n");
+        return;
+    }
+    while (fscanf(file, "%s %s", users[userCount].userName, users[userCount].password) == 2)
+    {
+        userCount++;
+        if (userCount >= MAX_USERS)
+        {
+            printf("Max users reached!!\n");
+            break;
+        }   
+    }
+    fclose(file);   
+}
+
 void userRegister(){
    
     if (userCount > MAX_USERS)
@@ -63,6 +98,7 @@ void userRegister(){
     printf("registration successful for %s\n\n", users[userCount].userName);
 
     userCount++;   
+    saveUserData();
 }
 void userLogin(){
     //for username
@@ -139,5 +175,7 @@ void userPrompt(){
 }
 
 int main(){
+    loadUserData();
     userPrompt();
+    return 0;
 }
