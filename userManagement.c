@@ -38,7 +38,7 @@ void hidePassword(char *password, int maxLength){
         }else if (index < maxLength - 1)
         {
             password[index++] = ch;
-            printf("*");
+            printf(".");
         }      
     }
 }
@@ -60,7 +60,7 @@ void userRegister(){
     //for password
     hidePassword(users[userCount].password, sizeof(users[userCount].password));
 
-    printf("registration successful for %s", users[userCount].userName);
+    printf("registration successful for %s\n\n", users[userCount].userName);
 
     userCount++;   
 }
@@ -71,9 +71,11 @@ void userLogin(){
     loginUsername[strcspn(loginUsername, "\n")] = '\0';
 
     //for password
-    printf("Enter the Password: ");
-    fgets(loginPassword, sizeof(loginPassword), stdin);
-    loginPassword[strcspn(loginPassword, "\n")] = '\0';
+    // printf("Enter the Password: ");
+    // fgets(loginPassword, sizeof(loginPassword), stdin);
+    // loginPassword[strcspn(loginPassword, "\n")] = '\0';
+
+    hidePassword(loginPassword, sizeof(loginPassword));
 
     int isAuthenticated = 0;
 
@@ -86,7 +88,7 @@ void userLogin(){
     }
     
     if(isAuthenticated){
-        printf("You have logged in successfully!!\n\n");
+        printf("You have logged in successfully, %s!!\n\n", loginUsername);
     }else{
         printf("Wrong username or password\n\n");
     }
