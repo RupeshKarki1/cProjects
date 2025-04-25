@@ -4,28 +4,35 @@
 
 #define MAX_USERS 10
 
+//custom data type to store username and password for array usersa
 typedef struct 
 {
     char userName[20];
     char password[10];
 }User;  
 
+// making users array with max users as its size
 User users[MAX_USERS];
+
+//initialize user count as 0
 int userCount = 0;
 
+//for login function
 char loginUsername[20];
 char loginPassword[10];
 
 //to hide the password with *
 void hidePassword(char *password, int maxLength){
+    //to track the password content
     int index = 0;
     char ch;
 
     printf("Set a password: ");
+
     while (1)
     {
         ch = getch(); //gets a single char and doesnot display it
-        if (ch == '\r')
+        if (ch == '\r') // \r is enter key
         {
             password[index] = '\0';
             printf("\n");
@@ -33,16 +40,17 @@ void hidePassword(char *password, int maxLength){
         }else if (ch == '\b'){
             if(index > 0){
                 index--;
-                printf("\b \b");
+                printf("\b \b"); //moves back and delets and moves back again
             }
         }else if (index < maxLength - 1)
         {
             password[index++] = ch;
-            printf(".");
+            printf("*");
         }      
     }
 }
 
+//saving user input in txt file
 void saveUserData(){
     FILE *file = fopen("userData.txt", "w"); //opening file in write mode
     if (file == NULL)
@@ -66,6 +74,7 @@ void loadUserData(){
         printf("No existing user data found. \n");
         return;
     }
+    //verifying that the user exists
     while (fscanf(file, "%s %s", users[userCount].userName, users[userCount].password) == 2)
     {
         userCount++;
@@ -90,9 +99,12 @@ void eraseData(){
     fclose(file);
     printf("User accounts Deleted.\n");    
     userCount = 0;
+
+    //reseting the users array with memset (didnt know this used chatgpt and co pilot)
     memset(users, 0, sizeof(users));
 }
 
+//user registering
 void userRegister(){
    
     if (userCount > MAX_USERS)
@@ -128,8 +140,10 @@ void userLogin(){
 
     hidePassword(loginPassword, sizeof(loginPassword));
 
+    // acts as a boolean to check if logged in succ fully 
     int isAuthenticated = 0;
 
+    //looping around user data to fetch and compare using strcmp
     for(int i = 0; i < userCount; i++){
         if(strcmp(users[i].userName, loginUsername) == 0 &&
                 strcmp( users[i].password, loginPassword) == 0){
@@ -154,6 +168,7 @@ void userLogin(){
 }
 
 
+//this is basic no need to comment
 void userPrompt(){
     int selectedOption;
     char selectedOptionChar;
