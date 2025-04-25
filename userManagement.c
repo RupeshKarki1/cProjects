@@ -78,6 +78,21 @@ void loadUserData(){
     fclose(file);   
 }
 
+//erasing the existing accounts
+void eraseData(){
+    FILE *file = fopen("userData.txt", "w"); // opening in write mode clears the content of file
+    if (file == NULL)
+    {
+        printf("Error opening the file\n");
+        return;
+    }
+
+    fclose(file);
+    printf("User accounts Deleted.\n");    
+    userCount = 0;
+    memset(users, 0, sizeof(users));
+}
+
 void userRegister(){
    
     if (userCount > MAX_USERS)
@@ -147,6 +162,7 @@ void userPrompt(){
         printf("1.Register\n");
         printf("2.login\n");
         printf("3.exit\n");
+        printf("4.Clear Accounts\n");
         printf("select an option: \n");
     
        
@@ -166,6 +182,9 @@ void userPrompt(){
             break;
         case 3:
             return;
+            break;
+        case 4:
+            eraseData();
             break;
         default:
             printf("please enter a valid number");
